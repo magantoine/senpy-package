@@ -1,1 +1,1 @@
-from notifyMeSenpy.test import test_function
+from test import test_function
