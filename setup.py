@@ -17,5 +17,7 @@ setup(
     'Programming Language :: Python :: 3.4',
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
-    ]
+    ], 
+
+    download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.1.tar.gz"
 )
