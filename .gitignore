@@ -4,3 +4,5 @@ NotifyMeSenpy/__pycache__/
 *.ipynb
 dist/
 .ipynb_checkpoints/
+package
+MANIFEST
