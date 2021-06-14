@@ -1,4 +1,4 @@
-# Senpy package :
+# Senpy package
 
 
 ## How to use as private package :
