@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name="notify-me-senpy", 
-    version="0.1", 
+    version="0.4", 
     description="Ask senpy to notify you on your phone whenever you need on your python script.",
     author="Abiskorp", 
     url="https://github.com/magantoine/senpy-package",
@@ -19,5 +19,5 @@ setup(
     'Programming Language :: Python :: 3.6',
     ], 
 
-    download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.1.tar.gz"
+    download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.4.tar.gz"
 )
