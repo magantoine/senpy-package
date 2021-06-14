@@ -1,7 +1,7 @@
 # Senpy package :
 
 
-# How to use as private package :
+## How to use as private package :
 
 We want to be able to use the scripts as a **PyPi** package but we don't want to publish it right away. So we can run a private PyPi package
 
