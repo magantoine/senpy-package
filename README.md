@@ -8,7 +8,7 @@ We want to be able to use the scripts as a **PyPi** package but we don't want to
 
 ### 1. The directory 
 
-The directory ```package_senpy``` is, for now built as follows :
+The directory ```senpy_package``` is, for now built as follows :
 ```
 > NotifyMeSenpy /
     > __init__.py
@@ -42,7 +42,7 @@ Once you've create the folder you can instantiate the virtual environment the fo
 ```shell
 cd ../package
 virtualenv venv
-source venv/Scripts/activate
+source venv/Scripts/activate #or venv/bin/activate for MacOS
 ```
 
 For Windows users you can :
@@ -83,9 +83,9 @@ To change the released version proceed as follows :
 
 3 - clic ```Draft a new release``` and create a new one incrementing the release tag
 
-4 - right clic on ```source code (tar.gz)``` on the new release you just created
+4 - right clic on ```source code (tar.gz)``` on the new release you just created and copy the link
 
-5 - put the link in ```setup.py``` at ```download_url```
+5 - Paste the link in ```setup.py``` at ```download_url```
 
 ### 4. Run the server
 
