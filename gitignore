@@ -1,6 +1,0 @@
-.mypy_cache/
-NotifyMeSenpy/.mypy_cache/
-NotifyMeSenpy/__pycache__/
-*.ipynb
-dist/
-.ipynb_checkpoints/
