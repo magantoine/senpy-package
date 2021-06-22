@@ -57,7 +57,7 @@ Run the following command from the top folder:
 pip install -e .
 ```
 You only need to run this command once. What it does is that it installs a package, called NotifyMeSenpy, whose implementation in the current folder (and not in the usual `site-packages`, so every subsequent code modifications while be taken into account.
-You can directly go to the Utilisation section.
+You can directly go to the Usage section.
 
 ### Release using a local server
 
@@ -116,7 +116,20 @@ You're supposed to get the following page :
 Verify that your pypi server is indeed serving **1 package**.
 
 
-### Utilisation
+### Usage
+
+In the command line you can register an account and handle all the authentication measures:
+```bash
+senpy register
+>>> ? Username: your_username
+>>> ? Password: *********
+>>> ? Confirmation: *********
+```
+
+The existing commands are:
+```bash
+senpy {register|login|logout|change_password|delete_account}
+```
 
 Now in any python screen you like you can do 
 
@@ -125,6 +138,8 @@ import NotifyMeSenpy
 ``` 
 
 and indeed get the package's function
+
+
 
 
 
