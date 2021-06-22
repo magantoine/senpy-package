@@ -6,7 +6,7 @@
 We want to be able to use the scripts as a **PyPi** package but we don't want to publish it right away. So we can run a private PyPi package
 
 
-### 1. The directory 
+### The directory 
 
 The directory ```senpy_package``` is, for now built as follows :
 ```
@@ -22,7 +22,7 @@ The directory ```senpy_package``` is, for now built as follows :
 ```
 
 
-### 2. Setting up the pypi server
+### Setting up the pypi server
 
 Running a personnal pypi server requires a the pypi packages ```virtualenv``` and ```pypiserver``` that you can install the following way :
 
@@ -50,7 +50,14 @@ For Windows users you can :
     - simply run the script as ``` ./activate.bat ```
 
 
-### 3. Release 
+### Release in local
+
+Run the following command from the top folder:
+```
+pip install -e .
+```
+
+### Release using a local server
 
 The pypiserver is now ready to locally host any released code you might give him. It can nevertheless only hold deliverables (just as Pypi would). To create a release, you can use to setup.py code the following way :
 
@@ -87,7 +94,7 @@ To change the released version proceed as follows :
 
 5 - Paste the link in ```setup.py``` at ```download_url```
 
-### 4. Run the server
+### Run the server
 
 Now you can run the pypi server in the ```package``` directory using :
 
@@ -107,7 +114,7 @@ You're supposed to get the following page :
 Verify that your pypi server is indeed serving **1 package**.
 
 
-### 5. Utilisation
+### Utilisation
 
 Now in any python screen you like you can do 
 
