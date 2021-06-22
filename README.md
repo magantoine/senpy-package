@@ -56,7 +56,8 @@ Run the following command from the top folder:
 ```
 pip install -e .
 ```
-You can directly go to the Utilisation section
+You only need to run this command once. What it does is that it installs a package, called NotifyMeSenpy, whose implementation in the current folder (and not in the usual `site-packages`, so every subsequent code modifications while be taken into account.
+You can directly go to the Utilisation section.
 
 ### Release using a local server
 
