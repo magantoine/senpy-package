@@ -22,6 +22,15 @@ The directory ```senpy_package``` is, for now built as follows :
 ```
 
 
+### Release in local
+
+Run the following command from the top folder:
+```
+pip install -e .
+```
+You only need to run this command once. What it does is that it installs a package, called NotifyMeSenpy, whose implementation in the current folder (and not in the usual `site-packages`, so every subsequent code modifications while be taken into account.
+You can directly go to the Usage section.
+
 ### Setting up the pypi server
 
 Running a personnal pypi server requires a the pypi packages ```virtualenv``` and ```pypiserver``` that you can install the following way :
@@ -48,16 +57,6 @@ source venv/Scripts/activate #or venv/bin/activate for MacOS
 For Windows users you can :
     - use WSL
     - simply run the script as ``` ./activate.bat ```
-
-
-### Release in local
-
-Run the following command from the top folder:
-```
-pip install -e .
-```
-You only need to run this command once. What it does is that it installs a package, called NotifyMeSenpy, whose implementation in the current folder (and not in the usual `site-packages`, so every subsequent code modifications while be taken into account.
-You can directly go to the Usage section.
 
 ### Release using a local server
 
