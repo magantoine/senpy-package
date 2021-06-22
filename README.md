@@ -56,6 +56,7 @@ Run the following command from the top folder:
 ```
 pip install -e .
 ```
+You can directly go to the Utilisation section
 
 ### Release using a local server
 
@@ -94,7 +95,7 @@ To change the released version proceed as follows :
 
 5 - Paste the link in ```setup.py``` at ```download_url```
 
-### Run the server
+#### Run the server
 
 Now you can run the pypi server in the ```package``` directory using :
 
