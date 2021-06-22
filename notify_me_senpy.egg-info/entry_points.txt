@@ -1,3 +1,0 @@
-[console_scripts]
-senpy = NotifyMeSenpy.cli:main
-
