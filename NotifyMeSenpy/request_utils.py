@@ -1,5 +1,4 @@
 ### UTILS FOR REQUEST THE SERVER
-
 import requests
 
 
@@ -22,19 +21,19 @@ def get(tail):
     the response to the request
     """
     req = requests.get(create_url(tail))
-    return req.content
+    return req # Content is of type byte
 
-def post(tail, content):
+def post(tail, body=None, headers=None):
     """
-    performs a post request to the server with percise root and content
+    performs a post request to the server with percise root and body
 
     parameters:
     tail : the root to the query
-    content : the content to post
+    body : dict, the content to post
 
     returns :
     the response to the request
     """
-    req = requests.post(create_url(tail), content)
-    return req.content
+    req = requests.post(create_url(tail), data=body, headers=headers)
+    return req # Content is of type byte
 

@@ -1,10 +1,16 @@
 from distutils.core import setup
 
+def readme():
+    with open('README.md') as f:
+        return f.read()
+
 setup(
     name="notify-me-senpy", # name of the package on PyPi
     version="0.5", # version number
     description="Ask senpy to notify you on your phone whenever you need on your python script.", # short textual description
+    long_description=readme(),
     author="Abiskorp", # authors
+    author_email='notify.me.senpy@gmail.com',
     url="https://github.com/magantoine/senpy-package", # link to the repo
     keywords="PRODUCTIVITY",  # can input a list of descriptive keywords TODO COMPLETE
     license="MIT", # can chose licence TODO COMPLETE
@@ -18,7 +24,11 @@ setup(
     'Programming Language :: Python :: 3.5',
     'Programming Language :: Python :: 3.6',
     ],
-
+    entry_points={
+        'console_scripts': [
+            'senpy = NotifyMeSenpy.cli:main'
+        ]
+    },
     # link to the release
     download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.5.tar.gz"
 )

@@ -1,0 +1,9 @@
+LICENSE.txt
+README.md
+setup.cfg
+setup.py
+notify_me_senpy.egg-info/PKG-INFO
+notify_me_senpy.egg-info/SOURCES.txt
+notify_me_senpy.egg-info/dependency_links.txt
+notify_me_senpy.egg-info/entry_points.txt
+notify_me_senpy.egg-info/top_level.txt

@@ -1,3 +1,2 @@
 from NotifyMeSenpy.test import test_function
-import NotifyMeSenpy.command_line_test
 import NotifyMeSenpy.request_utils
