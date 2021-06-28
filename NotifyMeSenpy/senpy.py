@@ -1,8 +1,10 @@
-import request_utils as requ
+from request_utils import post
+import user_token
 
 
 
-def notify_me(content):
+
+def notify_me(content, tries=200):
     """
     send a push notification with given content 
 
@@ -11,5 +13,11 @@ def notify_me(content):
 
     returns :
     """
+    
+    success = False
+    while(not success and tries > 0):
+        res = post('api/job/notifyme', content, headers={"token":user_token.get_token()})
+        if(res.status_code != 200):
+            tries -= 1
 
-    return None
+    raise IOError("Failed to reached the server")
