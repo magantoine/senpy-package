@@ -3,6 +3,7 @@ from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationErro
 from .request_utils import post
 from colorama import Fore, Style
 import argparse
+import user_token
 
 # style = style_from_dict({
 #     Token.Separator: '#cc5454',
@@ -47,6 +48,7 @@ def register():
         res = post('api/auth/register', data)
         if res.status_code == 201:
             token = res.json()['auth_token']
+            user_token.set_token(token)
             user_id = res.json()['id']
             print(user_id)
             print_success('Account created!')
@@ -62,12 +64,14 @@ def login():
         if res.status_code == 200:
             print_success("You are logged in, welcome!")
             token = res.json()['auth_token']
+            user_token.set_token(token)
             logged_in = True
         else:
             print_error(res)
 
 def logout():
-    token = '2882ede988f3961c706dcc39320f4665160a2e67'
+    #token = '2882ede988f3961c706dcc39320f4665160a2e67'
+    token = user_token.get_token()
     res = post('api/auth/logout', headers={'Authentication': token})
     print_success("You are logged out, see you!")
     
@@ -90,7 +94,8 @@ def change_password():
         }
     ]
     success = False
-    token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
+    #token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
+    token = user_token.get_token()
     while not success:
         data = prompt(questions)
         res = post('api/auth/change_password', data, headers={'Authorization':token})
@@ -101,7 +106,8 @@ def change_password():
             print_error(res)
 
 def delete_account():
-    token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
+    #token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
+    token = user_token.get_token()
     logged_in = False
     while not logged_in:
         data = prompt(username + password)
