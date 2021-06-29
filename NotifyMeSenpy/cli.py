@@ -3,130 +3,25 @@ from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationErro
 from .request_utils import post
 from colorama import Fore, Style
 import argparse
-import user_token
-
-# style = style_from_dict({
-#     Token.Separator: '#cc5454',
-#     Token.QuestionMark: '#673ab7 bold',
-#     Token.Selected: '#cc5454',  # default
-#     Token.Pointer: '#673ab7 bold',
-#     Token.Instruction: '',  # default
-#     # Token.Answer: '#f44336 bold',
-#     Token.Question: '',
-# })
-
-class PasswordValidator(Validator):
-    def validate(self, document):
-        if len(document.text) < 8:
-            raise ValidationError(
-                message='At least 8 characters',
-                cursor_position=len(document.text))  # Move cursor to end
+import account_manager 
 
 
-username =  [{
-            'type': 'input',
-            'message': 'Username',
-            'name': 'username', #The name of the question is the request body key
-        }]
-password = [{
-            'type': 'password',
-            'message': 'Password',
-            'name': 'password',
-            'validate': PasswordValidator
-        }]
-
-def register():
-    questions = username + password + [
-        {
-            'type': 'password',
-            'message': 'Password confirmation',
-            'name': 'password_confirmation',
-        }]
-    registered = False
-    while not registered:
-        data = prompt(questions)
-        res = post('api/auth/register', data)
-        if res.status_code == 201:
-            token = res.json()['auth_token']
-            user_token.set_token(token)
-            user_id = res.json()['id']
-            print(user_id)
-            print_success('Account created!')
-            registered = True
-        else:
-            print_error(res)
-
-def login():
-    logged_in = False
-    while not logged_in:
-        data = prompt(username + password)
-        res = post('api/auth/login', data)
-        if res.status_code == 200:
-            print_success("You are logged in, welcome!")
-            token = res.json()['auth_token']
-            user_token.set_token(token)
-            logged_in = True
-        else:
-            print_error(res)
-
-def logout():
-    #token = '2882ede988f3961c706dcc39320f4665160a2e67'
-    token = user_token.get_token()
-    res = post('api/auth/logout', headers={'Authentication': token})
-    print_success("You are logged out, see you!")
-    
-def change_password():
-    questions = [
-        {
-            'type': 'password',
-            'message': 'Current password',
-            'name': 'current_password',
-        },
-        {
-            'type': 'password',
-            'message': 'New password',
-            'name': 'new_password',
-        },
-        {
-            'type': 'password',
-            'message': 'Confirmation',
-            'name': 'new_password_confirmation',
-        }
-    ]
-    success = False
-    #token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
-    token = user_token.get_token()
-    while not success:
-        data = prompt(questions)
-        res = post('api/auth/change_password', data, headers={'Authorization':token})
-        if res.status_code == 204:
-            print_success('Password changed successfully.')
-            success = True
-        else:
-            print_error(res)
-
-def delete_account():
-    #token = 'Token 2882ede988f3961c706dcc39320f4665160a2e67'
-    token = user_token.get_token()
-    logged_in = False
-    while not logged_in:
-        data = prompt(username + password)
-        res = post('api/auth/delete', data, headers={'Authorization':token})
-        if res.status_code == 200:
-            print_success("Account deleted successfully.")
-            logged_in = True
-        else:
-            print_error(res)
 
 def main():
+
+    specified_register = lambda : account_manager.register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
+    specified_login = lambda : account_manager.login(on_success=lambda res : print_success("You are logged in, welcome!"), on_failure=print_error)
+    specified_change_password = lambda : account_manager.change_password(on_success=lambda res : print_success('Password changed successfully.'), on_failure=print_error)
+    specified_logout = lambda : account_manager.logout(on_success=lambda res : print_success("You are logged out, see you!"), on_failure=print_error)
+    specified_delete_account = lambda : account_manager.delete_account(on_success=lambda res : print_success("Account deleted successfully."), on_failure=print_error)
     parser = argparse.ArgumentParser(prog='senpy')
     subparsers = parser.add_subparsers()
 
-    subparsers.add_parser('register').set_defaults(func=register)
-    subparsers.add_parser('login').set_defaults(func=login)
-    subparsers.add_parser('logout').set_defaults(func=logout)
-    subparsers.add_parser('change_password').set_defaults(func=change_password)
-    subparsers.add_parser('delete_account').set_defaults(func=delete_account)
+    subparsers.add_parser('register').set_defaults(func=specified_register)
+    subparsers.add_parser('login').set_defaults(func=specified_login)
+    subparsers.add_parser('logout').set_defaults(func=specified_logout)
+    subparsers.add_parser('change_password').set_defaults(func=specified_change_password)
+    subparsers.add_parser('delete_account').set_defaults(func=specified_delete_account)
 
     args = vars(parser.parse_args())
 
