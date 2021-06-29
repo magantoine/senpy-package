@@ -6,7 +6,7 @@ import argparse
 import user_token
 from enum import Enum 
 
-
+__default_func = lambda x : None
 ## enum for status return
 class Status(Enum):
     SUCCESS = 0
@@ -37,7 +37,7 @@ password = [{
             'validate': PasswordValidator
         }]
 
-def register(on_success, on_failure, tries=200):
+def register(on_success=__default_func, on_failure=__default_func, tries=200):
     questions = username + password + [
         {
             'type': 'password',
@@ -63,7 +63,7 @@ def register(on_success, on_failure, tries=200):
     return Result(Status.FAILURE, res)
 
 
-def login(on_success, on_failure, tries=200):
+def login(on_success=__default_func, on_failure=__default_func, tries=200):
     logged_in = False
     while not logged_in and tries > 0:
         data = prompt(username + password)
@@ -80,7 +80,7 @@ def login(on_success, on_failure, tries=200):
     
     return Result(Status.FAILURE, res)
 
-def logout(on_success, on_failure, tries=200):
+def logout(on_success=__default_func, on_failure=__default_func, tries=200):
     token = user_token.get_token()
     res = post('api/auth/logout', headers={'Authentication': token})
     on_success(res)
@@ -118,7 +118,7 @@ def change_password(on_success, on_failure, tries=200):
         tries -= 1
     return Result(Status.FAILURE, res)
 
-def delete_account(on_success, on_failure, tries=200):
+def delete_account(on_success=__default_func, on_failure=__default_func, tries=200):
     token = user_token.get_token()
     logged_in = False
     while not logged_in and tries > 0:
