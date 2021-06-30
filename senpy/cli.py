@@ -3,17 +3,17 @@ from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationErro
 from .request_utils import post
 from colorama import Fore, Style
 import argparse
-import account_manager 
+from .account_manager import register, login, logout, change_password, delete_account
 
 
 
 def main():
 
-    specified_register = lambda : account_manager.register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
-    specified_login = lambda : account_manager.login(on_success=lambda res : print_success("You are logged in, welcome!"), on_failure=print_error)
-    specified_change_password = lambda : account_manager.change_password(on_success=lambda res : print_success('Password changed successfully.'), on_failure=print_error)
-    specified_logout = lambda : account_manager.logout(on_success=lambda res : print_success("You are logged out, see you!"), on_failure=print_error)
-    specified_delete_account = lambda : account_manager.delete_account(on_success=lambda res : print_success("Account deleted successfully."), on_failure=print_error)
+    specified_register = lambda : register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
+    specified_login = lambda : login(on_success=lambda res : print_success("You are logged in, welcome!"), on_failure=print_error)
+    specified_change_password = lambda : change_password(on_success=lambda res : print_success('Password changed successfully.'), on_failure=print_error)
+    specified_logout = lambda : logout(on_success=lambda res : print_success("You are logged out, see you!"), on_failure=print_error)
+    specified_delete_account = lambda : delete_account(on_success=lambda res : print_success("Account deleted successfully."), on_failure=print_error)
     parser = argparse.ArgumentParser(prog='senpy')
     subparsers = parser.add_subparsers()
 
@@ -34,6 +34,9 @@ def main():
 def print_error(res):
     def parse_message(error):
         return Fore.RED + error.lower().capitalize() + Style.RESET_ALL
+    print("===================6======================")
+    print(res)
+    print("=========================================")
     data = res.json()
     if type(data) == list:
         for error in data:

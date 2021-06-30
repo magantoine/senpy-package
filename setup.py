@@ -26,7 +26,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'senpy = NotifyMeSenpy.cli:main'
+            'senpy = senpy.cli:main'
         ]
     },
     # link to the release

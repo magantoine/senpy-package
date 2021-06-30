@@ -1,10 +1,10 @@
-from request_utils import post
-import user_token
+from .request_utils import post
+from .user_token import get_token
 
 
 
 
-def notify_me(content, tries=200):
+def notify_me(content):
     """
     send a push notification with given content 
 
@@ -14,10 +14,9 @@ def notify_me(content, tries=200):
     returns :
     """
     
-    success = False
-    while(not success and tries > 0):
-        res = post('api/job/notifyme', content, headers={"token":user_token.get_token()})
-        if(res.status_code != 200):
-            tries -= 1
+    
+    res = post('api/notif/notifyme', content, headers={"Authorization":get_token(), "Content-Type":"application/json"})
+    if(res.status_code != 200):
+            raise IOError("The message could not be sent")
 
     raise IOError("Failed to reached the server")
