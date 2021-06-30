@@ -32,6 +32,13 @@ def main():
         return
    
 def print_error(res):
+    """
+
+    prints error message 
+
+    parameters :
+    res : result of the query
+    """
     def parse_message(error):
         return Fore.RED + error.lower().capitalize() + Style.RESET_ALL
     print("===================6======================")
@@ -49,4 +56,11 @@ def print_error(res):
         print(parse_message(data))
 
 def print_success(message):
+    """
+
+    prints succes of a query
+
+    parameters :
+    message : message to print
+    """
     print(Fore.GREEN + message + Style.RESET_ALL)

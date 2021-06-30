@@ -3,19 +3,25 @@ from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationErro
 from .request_utils import post
 from colorama import Fore, Style
 import argparse
-import user_token
+from .user_token import get_token, set_token
 from enum import Enum 
 
 __default_func = lambda x : None
-## enum for status return
+
 class Status(Enum):
+    """
+    enum for status return
+    """
     SUCCESS = 0
     FAILURE = 1
 
 class Result:
+    """
+    result of a query
+    """
     def __init__(self, status, message):
-        self.status = status 
-        self.message = message
+        self.status = status ## failure or success 
+        self.message = message ## message of the result
 
 class PasswordValidator(Validator):
     def validate(self, document):
@@ -37,7 +43,14 @@ password = [{
             'validate': PasswordValidator
         }]
 
-def register(on_success=__default_func, on_failure=__default_func, tries=200):
+def register(on_success=__default_func, on_failure=__default_func):
+    """
+    register to the server
+
+    parameters:
+    on_success = callback called when the request succeeds
+    on_failure = callback called when the requests fails
+    """
     questions = username + password + [
         {
             'type': 'password',
@@ -45,12 +58,15 @@ def register(on_success=__default_func, on_failure=__default_func, tries=200):
             'name': 'password_confirmation',
         }]
     registered = False
-    while not registered and tries > 0:
+    while not registered:
         data = prompt(questions)
+        print("========================================")
+        print(data)
+        print("========================================")
         res = post('api/auth/register', data)
         if res.status_code == 201:
             token = res.json()['auth_token']
-            user_token.set_token(token)
+            set_token(token)
             user_id = res.json()['id']
             on_success(res)
             registered = True
@@ -59,34 +75,53 @@ def register(on_success=__default_func, on_failure=__default_func, tries=200):
         else:
             #print_error(res)
             on_failure(res)
-        tries -= 1
     return Result(Status.FAILURE, res)
 
 
-def login(on_success=__default_func, on_failure=__default_func, tries=200):
+def login(on_success=__default_func, on_failure=__default_func):
+    """
+    login to the server
+
+    parameters:
+    on_success = callback called when the request succeeds
+    on_failure = callback called when the requests fails
+    """
     logged_in = False
-    while not logged_in and tries > 0:
+    while not logged_in:
         data = prompt(username + password)
         res = post('api/auth/login', data)
         if res.status_code == 200:
             token = res.json()['auth_token']
-            user_token.set_token(token)
+            set_token(token)
             logged_in = True
             on_success(res)
             return Result(Status.SUCCESS, "You are logged in, welcome!")
         else:
             on_failure(res)
-        tries -= 1
     
     return Result(Status.FAILURE, res)
 
-def logout(on_success=__default_func, on_failure=__default_func, tries=200):
-    token = user_token.get_token()
+def logout(on_success=__default_func, on_failure=__default_func):
+    """
+    logout from the server
+
+    parameters:
+    on_success = callback called when the request succeeds
+    on_failure = callback called when the requests fails
+    """
+    token = get_token()
     res = post('api/auth/logout', headers={'Authentication': token})
     on_success(res)
     return Result(Status.SUCCESS, "You are logged out, see you!")
     
-def change_password(on_success, on_failure, tries=200):
+def change_password(on_success=__default_func, on_failure=__default_func):
+    """
+    change password in the server
+
+    parameters:
+    on_success = callback called when the request succeeds
+    on_failure = callback called when the requests fails
+    """
     questions = [
         {
             'type': 'password',
@@ -105,8 +140,8 @@ def change_password(on_success, on_failure, tries=200):
         }
     ]
     success = False
-    token = user_token.get_token()
-    while not success and tries > 0:
+    token = get_token()
+    while not success:
         data = prompt(questions)
         res = post('api/auth/change_password', data, headers={'Authorization':token})
         if res.status_code == 204:
@@ -115,13 +150,19 @@ def change_password(on_success, on_failure, tries=200):
             return Result(Status.SUCCESS, 'Password changed successfully.')
         else:
             on_failure(res)
-        tries -= 1
     return Result(Status.FAILURE, res)
 
-def delete_account(on_success=__default_func, on_failure=__default_func, tries=200):
-    token = user_token.get_token()
+def delete_account(on_success=__default_func, on_failure=__default_func):
+    """
+    delete account in the server
+
+    parameters:
+    on_success = callback called when the request succeeds
+    on_failure = callback called when the requests fails
+    """
+    token = get_token()
     logged_in = False
-    while not logged_in and tries > 0:
+    while not logged_in:
         data = prompt(username + password)
         res = post('api/auth/delete', data, headers={'Authorization':token})
         if res.status_code == 200:
@@ -130,5 +171,4 @@ def delete_account(on_success=__default_func, on_failure=__default_func, tries=2
             return Result(Status.SUCCESS, "Account deleted successfully.")
         else:
             on_failure(res)
-        tries -= 1
     return Result(Status.FAILURE, res)
