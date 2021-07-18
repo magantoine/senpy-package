@@ -24,3 +24,14 @@ def get_token():
 
     return keyring.get_password("senpy_auth_token", "user")
 
+
+def delete_token():
+    """
+    delete the stored token
+
+    parameters :
+
+    returns :
+    """
+
+    keyring.delete_password("senpy_auth_token", "user")

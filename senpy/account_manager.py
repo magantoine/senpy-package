@@ -3,7 +3,7 @@ from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationErro
 from .request_utils import post
 from colorama import Fore, Style
 import argparse
-from .user_token import get_token, set_token
+from .user_token import get_token, set_token, delete_token
 from enum import Enum 
 
 __default_func = lambda x : None
@@ -112,6 +112,7 @@ def logout(on_success=__default_func, on_failure=__default_func):
     token = get_token()
     res = post('api/auth/logout', headers={'Authentication': token})
     on_success(res)
+    delete_token()
     return Result(Status.SUCCESS, "You are logged out, see you!")
     
 def change_password(on_success=__default_func, on_failure=__default_func):
@@ -168,6 +169,7 @@ def delete_account(on_success=__default_func, on_failure=__default_func):
         if res.status_code == 200:
             on_success(res)
             logged_in = True
+            delete_token()
             return Result(Status.SUCCESS, "Account deleted successfully.")
         else:
             on_failure(res)

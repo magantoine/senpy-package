@@ -1,12 +1,13 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationError
 from .request_utils import post
+import colorama
 from colorama import Fore, Style
 import argparse
 from .account_manager import register, login, logout, change_password, delete_account
 
 
-
+colorama.init(convert=True)
 def main():
 
     specified_register = lambda : register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
