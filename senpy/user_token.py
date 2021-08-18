@@ -10,7 +10,7 @@ def set_token(new_token):
     returns :
     """
 
-    keyring.set_password("senpy_auth_token", "user", new_token)
+    keyring.set_password("senpy_auth_token", "user", "Token " + new_token)
 
 def get_token():
     """

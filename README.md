@@ -10,7 +10,7 @@ We want to be able to use the scripts as a **PyPi** package but we don't want to
 
 The directory ```senpy_package``` is, for now built as follows :
 ```
-> NotifyMeSenpy /
+> senpy /
     > __init__.py
     > test.py
 > gitignore
@@ -70,7 +70,7 @@ You should now have the following directory ```package_senpy``` :
 ```
 > dist /
     > notify-me-senpy-0.1.tar.gz
-> NotifyMeSenpy /
+> senpy /
     > __init__.py
     > test.py
 > gitignore
@@ -133,7 +133,7 @@ senpy {register|login|logout|change_password|delete_account}
 Now in any python screen you like you can do 
 
 ```python
-import NotifyMeSenpy
+import senpy
 ``` 
 
 and indeed get the package's function

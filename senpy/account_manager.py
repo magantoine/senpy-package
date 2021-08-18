@@ -63,8 +63,8 @@ def register(on_success=__default_func, on_failure=__default_func):
         print("========================================")
         print(data)
         print("========================================")
-        res = post('api/auth/register', data)
-        if res.status_code == 201:
+        res = post('auth/register', data)
+        if 'python_error' not in res and res.status_code == 200:
             token = res.json()['auth_token']
             set_token(token)
             user_id = res.json()['id']
@@ -89,8 +89,8 @@ def login(on_success=__default_func, on_failure=__default_func):
     logged_in = False
     while not logged_in:
         data = prompt(username + password)
-        res = post('api/auth/login', data)
-        if res.status_code == 200:
+        res = post('auth/login', json=data)
+        if 'python_error' not in res and res.status_code == 200:
             token = res.json()['auth_token']
             set_token(token)
             logged_in = True
@@ -109,8 +109,7 @@ def logout(on_success=__default_func, on_failure=__default_func):
     on_success = callback called when the request succeeds
     on_failure = callback called when the requests fails
     """
-    token = get_token()
-    res = post('api/auth/logout', headers={'Authentication': token})
+    res = post('auth/logout')
     on_success(res)
     delete_token()
     return Result(Status.SUCCESS, "You are logged out, see you!")
@@ -141,11 +140,10 @@ def change_password(on_success=__default_func, on_failure=__default_func):
         }
     ]
     success = False
-    token = get_token()
     while not success:
         data = prompt(questions)
-        res = post('api/auth/change_password', data, headers={'Authorization':token})
-        if res.status_code == 204:
+        res = post('auth/change_password', data)
+        if 'python_error' not in res and res.status_code == 200:
             on_success(res)
             success = True
             return Result(Status.SUCCESS, 'Password changed successfully.')
@@ -161,12 +159,11 @@ def delete_account(on_success=__default_func, on_failure=__default_func):
     on_success = callback called when the request succeeds
     on_failure = callback called when the requests fails
     """
-    token = get_token()
     logged_in = False
     while not logged_in:
         data = prompt(username + password)
-        res = post('api/auth/delete', data, headers={'Authorization':token})
-        if res.status_code == 200:
+        res = post('auth/delete', data)
+        if 'python_error' not in res and res.status_code == 200:
             on_success(res)
             logged_in = True
             delete_token()

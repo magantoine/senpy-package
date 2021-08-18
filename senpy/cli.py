@@ -1,13 +1,17 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationError
-from .request_utils import post
-import colorama
-from colorama import Fore, Style
+import sys
 import argparse
+import logging
+import colorama
+from colorama import Fore, Style, AnsiToWin32
+from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationError
+
+from .request_utils import post
 from .account_manager import register, login, logout, change_password, delete_account
 
+colorama.init(wrap=False)
+stream = AnsiToWin32(sys.stderr).stream
 
-colorama.init(convert=True)
 def main():
 
     specified_register = lambda : register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
@@ -40,21 +44,30 @@ def print_error(res):
     parameters :
     res : result of the query
     """
-    def parse_message(error):
-        return Fore.RED + error.lower().capitalize() + Style.RESET_ALL
-    print("===================6======================")
-    print(res)
-    print("=========================================")
+    def print_message(error):
+        print(Fore.RED + "Senpy - " + error.lower() + Style.RESET_ALL, file=stream)
+
+    if type(res) == str:
+        print_message(res)
+        return
+
+    if 'python_error' in res:
+        print_message(res['message'])
+        return
+
     data = res.json()
     if type(data) == list:
         for error in data:
-            print(parse_message(error))
+            print_message(error)
     elif type(data) == dict:
         for key, errors in data.items():
-            for error in errors:
-                print(parse_message(error))
-    else:
-        print(parse_message(data))
+            if type(errors) == list:
+                for error in errors:
+                    print_message(f"{key}: {error}")
+            elif type(errors) == str:
+                print_message(f"{key}: {errors}")
+    elif type(errors) == str:
+        print_message(data)
 
 def print_success(message):
     """
