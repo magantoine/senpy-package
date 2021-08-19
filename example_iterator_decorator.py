@@ -1,6 +1,6 @@
 from time import sleep 
 from datetime import datetime
-from senpy import ntm
+import senpy as sp
 
 class IterableDecorator:
     """
@@ -28,7 +28,7 @@ class IterableDecorator:
         print(f'Finished {n} iterations')
 
 def main():
-    for i in ntm(range(10), name='test'):
+    for i in sp.ntm(range(10), name='test'):
         pass
 
 if __name__ == '__main__':

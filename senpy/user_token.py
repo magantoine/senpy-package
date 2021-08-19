@@ -10,7 +10,7 @@ def set_token(new_token):
     returns :
     """
 
-    keyring.set_password("senpy_auth_token", "user", "Token " + new_token)
+    keyring.set_password("senpy_auth_token", "user", f"Token {new_token}")
 
 def get_token():
     """
@@ -33,5 +33,5 @@ def delete_token():
 
     returns :
     """
-
-    keyring.delete_password("senpy_auth_token", "user")
+    if get_token() is not None:
+        keyring.delete_password("senpy_auth_token", "user")

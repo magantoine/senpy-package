@@ -3,6 +3,8 @@ from time import sleep
 
 from .notifications import notify_me
 from .request_utils import post, get, put, handle_request_error
+from .account_manager import check_token_exists
+from .user_token import get_token
 from .cli import print_error
 from datetime import datetime
 from threading import Timer
@@ -80,6 +82,9 @@ class ntm:
     ntm (NoTify Me) decorates an iterable and sends periodic updates.
     """
     def __init__(self, iterable, name="", current_iteration=0):
+        # check that a token exists
+        # If it doesn't exist, prompt register or login
+        check_token_exists()
         self.iterable = iterable
         self.name = name
         self.current_iteration = current_iteration
@@ -91,15 +96,20 @@ class ntm:
 
 
     def _update_job(self):
+        if get_token() is None:
+            # Don't update if no token registered
+            # That happens when a user logs out or deletes their account while a job is running
+            # No error printed because the user is warned when logging out
+            return
         if not self.time_at_last_iteration:
-            # if update is called before the first iteration time_at_last is undefined
+            # if update is called before the first iteration then time_at_last is undefined
             return
         if not self.job_id:
             print_error("Update failed due to incorrect job initializion.")
             return
         body = {
         "current_iteration": self.current_iteration,
-        "time_at_last_iteration_pck": _date_to_str(self.time_at_last_iteration + timedelta(days=35))
+        "time_at_last_iteration_pck": _date_to_str(self.time_at_last_iteration)
         }
         res = put(f"job/{self.job_id}/update_job", json=body)
         if 'python_error' in res or res.status_code != 200:

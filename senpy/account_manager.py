@@ -5,6 +5,7 @@ from colorama import Fore, Style
 import argparse
 from .user_token import get_token, set_token, delete_token
 from enum import Enum 
+from .request_utils import print_success, print_error
 
 __default_func = lambda x : None
 
@@ -60,9 +61,6 @@ def register(on_success=__default_func, on_failure=__default_func):
     registered = False
     while not registered:
         data = prompt(questions)
-        print("========================================")
-        print(data)
-        print("========================================")
         res = post('auth/register', data)
         if 'python_error' not in res and res.status_code == 200:
             token = res.json()['auth_token']
@@ -109,6 +107,15 @@ def logout(on_success=__default_func, on_failure=__default_func):
     on_success = callback called when the request succeeds
     on_failure = callback called when the requests fails
     """
+    question = {
+        'type':'confirm',
+        'message':"Logging out will interrupt any job updates currently running. \nDo you still want to log out?",
+        'name':'confirmation'
+    }
+    data = prompt(question)
+    if data['confirmation'] == False:
+        #User doesn't want to logout anymore
+        return
     res = post('auth/logout')
     on_success(res)
     delete_token()
@@ -159,6 +166,16 @@ def delete_account(on_success=__default_func, on_failure=__default_func):
     on_success = callback called when the request succeeds
     on_failure = callback called when the requests fails
     """
+    question = {
+        'type':'confirm',
+        'message':"Deleting the account will interrupt any job updates currently running. \nDo you want to continue?",
+        'name':'confirmation'
+    }
+    data = prompt(question)
+    if data['confirmation'] == False:
+        #User doesn't want to delete account anymore
+        return
+
     logged_in = False
     while not logged_in:
         data = prompt(username + password)
@@ -171,3 +188,21 @@ def delete_account(on_success=__default_func, on_failure=__default_func):
         else:
             on_failure(res)
     return Result(Status.FAILURE, res)
+
+def check_token_exists():
+    if get_token() != None:
+        return
+    choices = ['Create an account', 'I already have an account']
+    question = {
+        'type': 'list',
+        'message': 'It looks like you are not logged in a senpy account!',
+        'name': 'register_or_login',
+        'choices': choices,
+        'default': 0
+    }
+    data = prompt(question)
+    if data['register_or_login'] == choices[0]:
+        #First choice is register
+        register(on_success=lambda res : print_success('Account created!'), on_failure=print_error)
+    else:
+        login(on_success=lambda res : print_success("You are logged in, welcome!"), on_failure=print_error)
