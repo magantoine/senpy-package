@@ -15,7 +15,7 @@ def create_url(tail):
 def get_base_url():
     return _URL.format("")
 
-def get(tail):
+def get(tail, headers=None):
     """
     performs a get request to the server with percise root
 
@@ -25,8 +25,21 @@ def get(tail):
     returns :
     the response to the request
     """
-    req = requests.get(create_url(tail))
-    return req # Content is of type byte
+    if headers is None:
+        headers = {"Content-Type":"application/json"}
+        token = get_token()
+        if token is not None:
+            headers["Authorization"] = token
+    
+    try:
+        req = requests.get(create_url(tail), headers=headers)
+        return req # Content is of type byte
+    except Exception as err:
+        return {
+            'python_error' : True, 
+            'exception': str(err),
+            'message':"Server unreachable, make sure you are connected to internet"
+        }
 
 def post(tail, json=None, headers=None):
     """
