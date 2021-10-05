@@ -1,4 +1,5 @@
 from distutils.core import setup
+import setuptools
 
 def readme():
     with open('README.md') as f:
@@ -6,16 +7,17 @@ def readme():
 
 setup(
     name="notify-me-senpy", # name of the package on PyPi
-    version="0.5", # version number
-    description="Ask senpy to notify you on your phone whenever you need on your python script.", # short textual description
+    version="0.1", # version number
+    description="Ask senpy to notify you on your phone whenever you need about your python script", # short textual description
     long_description=readme(),
+    long_description_content_type='text/markdown',
     author="Abiskorp", # authors
     author_email='notify.me.senpy@gmail.com',
     url="https://github.com/magantoine/senpy-package", # link to the repo
     keywords="PRODUCTIVITY",  # can input a list of descriptive keywords TODO COMPLETE
-    license="MIT", # can chose licence TODO COMPLETE
+    license="GPLv3", # can chose licence TODO COMPLETE
     classifiers=[
-    'Development Status :: 1 - Alpha',      
+    'Development Status :: 3 - Alpha',      
     'Intended Audience :: Developers',      
     'Topic :: Software Development :: Build Tools',
     'License :: OSI Approved :: MIT License',   
@@ -29,6 +31,13 @@ setup(
             'senpy = senpy.cli:main'
         ]
     },
+    install_requires=[
+        "colorama==0.4.4",
+        "keyring==23.2.1",
+        "PyInquirer==1.0.3",
+        "requests==2.26.0"
+      ],
+    packages=["senpy"],
     # link to the release
-    download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.5.tar.gz"
+    # download_url="https://github.com/magantoine/senpy-package/archive/refs/tags/0.5.tar.gz"
 )
