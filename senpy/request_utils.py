@@ -3,17 +3,36 @@ import sys
 import colorama
 from colorama import Fore, Style, AnsiToWin32
 import requests
+from requests.exceptions import Timeout
 from .user_token import get_token
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
 _URL = "http://192.168.0.137:8000/api/{}"
 
+
 def create_url(tail):
     return _URL.format(tail)
 
 def get_base_url():
     return _URL.format("")
+
+def request_handler(tail, request_func, json=None, headers=None):
+    if headers is None:
+        headers = {"Content-Type":"application/json"}
+        token = get_token()
+        if token is not None:
+            headers["Authorization"] = token
+    
+    try:
+        req = request_func(create_url(tail), headers=headers, json=json, timeout=5)
+        return req # Content is of type byte
+    except (Timeout, Exception) as err:
+        return {
+            'python_error' : True, 
+            'exception': str(err),
+            'message':"Server unreachable, make sure you are connected to internet"
+        }
 
 def get(tail, headers=None):
     """
@@ -25,21 +44,7 @@ def get(tail, headers=None):
     returns :
     the response to the request
     """
-    if headers is None:
-        headers = {"Content-Type":"application/json"}
-        token = get_token()
-        if token is not None:
-            headers["Authorization"] = token
-    
-    try:
-        req = requests.get(create_url(tail), headers=headers)
-        return req # Content is of type byte
-    except Exception as err:
-        return {
-            'python_error' : True, 
-            'exception': str(err),
-            'message':"Server unreachable, make sure you are connected to internet"
-        }
+    return request_handler(tail, requests.get, headers=headers)
 
 def post(tail, json=None, headers=None):
     """
@@ -53,21 +58,7 @@ def post(tail, json=None, headers=None):
     returns :
     the response to the request
     """
-    if headers is None:
-        headers = {"Content-Type":"application/json"}
-        token = get_token()
-        if token is not None:
-            headers["Authorization"] = token
-
-    try:
-        req = requests.post(create_url(tail), json=json, headers=headers)
-        return req # Content is of type byte
-    except Exception as err:
-        return {
-            'python_error' : True, 
-            'exception': str(err),
-            'message':"Server unreachable, make sure you are connected to internet"
-        }
+    return request_handler(tail, requests.post, json=json, headers=headers)
 
 def put(tail, json=None, headers=None):
     """
@@ -81,21 +72,7 @@ def put(tail, json=None, headers=None):
     returns :
     the response to the request
     """
-    if headers is None:
-        headers = {"Content-Type":"application/json"}
-        token = get_token()
-        if token is not None:
-            headers["Authorization"] = token
-
-    try:
-        req = requests.put(create_url(tail), json=json, headers=headers)
-        return req # Content is of type byte
-    except Exception as err:
-        return {
-            'python_error' : True, 
-            'exception': str(err),
-            'message':"Server unreachable, make sure you are connected to internet"
-        }
+    return request_handler(tail, requests.put, json=json, headers=headers)
 
 def handle_request_error(res):
     #Import here to avoid cyclic import (source: https://stackoverflow.com/a/33547682)

@@ -125,7 +125,7 @@ class ntm(object):
             # if update is called before the first iteration then time_at_last is undefined
             return
         if not self.job_id:
-            print_error("Update failed due to incorrect job initializion.")
+            # print_error("Update failed due to incorrect job initializion.")
             return
         body = {
         "current_iteration": self.current_iteration,
