@@ -5,9 +5,9 @@ from colorama import Fore, Style, AnsiToWin32
 import requests
 from .user_token import get_token
 
-colorama.init(wrap=False)
+colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-_URL = "http://192.168.43.175:8000/api/{}"
+_URL = "http://192.168.0.137:8000/api/{}"
 
 def create_url(tail):
     return _URL.format(tail)
