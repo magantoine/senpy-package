@@ -69,8 +69,7 @@ The directory ```senpy_package``` is, at this time, built as follows :
     └───user_token.py # Auth-token-related functions
 ├───tests # Unittests for each function
     ├───notify_me.py 
-    ├───ntm.py
-    └───
+    └───ntm.py
 └───setup.py # Package configuration file
 ```
 
