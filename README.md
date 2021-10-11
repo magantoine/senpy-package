@@ -59,15 +59,18 @@ with ntm(range(10)) as iterator:
 
 ### Architecture 
 
-The directory ```senpy_package``` is, for now built as follows :
-```
+The directory ```senpy_package``` is, at this time, built as follows :
+```bash
 ├───senpy # Folder containing the source code
-    ├───manage.py # Django management script
-    ├───senpy # Project setup
-    └───
-├───tests
-    ├───manage.py # Django management script
-    ├───senpy # Project setup
+    ├───account_manager.py # authentication system
+    ├───cli.py # cli utility functions
+    ├───jobs.py # ntm with statement source code
+    ├───notifications.py # notify_me source code
+    ├───request_utils.py # HTTP methods
+    └───user_token.py # Auth-token-related functions
+├───tests # Unittests for each function
+    ├───notify_me.py 
+    ├───ntm.py
     └───
 └───setup.py # Package configuration file
 ```
