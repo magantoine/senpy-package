@@ -3,12 +3,12 @@
 ## Installation
 ### 1. Package
 First install the Notify Me Senpy pip package
-```
+```bash
 pip install notify-me-senpy
 ```
 
 Create an account from the command line
-```
+```bash
 senpy register
 >>> ? Username: your_username
 >>> ? Password: *********
@@ -16,7 +16,7 @@ senpy register
 ```
 
 The existing commands are
-```
+```bash
 senpy {register|login|logout|change_password|delete_account}
 ```
 You are done with the package setup! 🎉
@@ -32,7 +32,6 @@ Once done, you simply have to log into your account in the app to complete the i
 <img src="./assets/configuration.jpeg" alt="login screen" width="200"/>
 <img src="./assets/login.jpeg" alt="login screen" width="200"/>
 </p>
-<br/><br/><br/>
 
 ## Usage
 
@@ -43,15 +42,15 @@ from senpy import notify_me
 notify_me("Great job")
 ```
 
-You can track your jobs using the `ntm` `with` statement:
+You can track your jobs using the `ntm` python `with statement`:
 
 ```python
 from senpy import ntm
 from time import sleep 
 
 with ntm(range(10)) as iterator:
-        for i, item in enumerate(iterator):
-            sleep(5)
+    for i, item in enumerate(iterator):
+        sleep(5)
 ``` 
 
 
