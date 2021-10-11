@@ -6,7 +6,7 @@ import requests
 from requests.exceptions import Timeout
 from .user_token import get_token
 
-colorama.init(wrap=False)
+colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
 _URL = "http://192.168.1.211:8000/api/{}"
 

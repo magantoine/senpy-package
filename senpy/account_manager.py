@@ -1,11 +1,12 @@
 from __future__ import print_function, unicode_literals
 from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationError
 from .request_utils import post
-from colorama import Fore, Style
 import argparse
 from .user_token import get_token, set_token, delete_token
 from enum import Enum 
 from .request_utils import print_success, print_error
+from colorama import Fore, Style, AnsiToWin32
+import sys
 
 __default_func = lambda x : None
 
@@ -59,6 +60,20 @@ def register(on_success=__default_func, on_failure=__default_func):
             'name': 'password_confirmation',
         }]
     registered = False
+
+
+
+
+    
+    disclaimers ="""\tThis is a beta version of Senpy. We do not give any warranties, whether express or implied, as to the suitability or usability of the app,
+        its software or any of its content. We will not be liable for any loss, whether such loss is direct, indirect, special or consequential, 
+        suffered by any party as a result of their use of the beta app, its content and functionalities.
+    """
+
+    disclaimers += Fore.LIGHTYELLOW_EX + "    Don't share any personal information on senpy" + Style.RESET_ALL
+    ### PROMPT THE DISCLAIMER :
+    print(Fore.LIGHTYELLOW_EX + "\tDISCLAIMERS :" + Style.RESET_ALL, file=AnsiToWin32(sys.stderr).stream)
+    print(disclaimers)
     while not registered:
         data = prompt(questions)
         res = post('auth/register', data)
