@@ -1,11 +1,10 @@
-# Notify Me Senpy
+<img alt="SenPy" src="./assets/banner.png"> 
 
 ## What is it?
 
-**Notify Me Senpy** is a tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points. 
+*Notify Me SenPy* is a tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points.
 
-It is composed of a Pip package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
-
+It is composed of a PyPi package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
 <p float="center">
 <img src="./assets/jobs.png" alt="job screen" />
@@ -33,7 +32,7 @@ with ntm(range(10)) as iterator:
 
 ## Installation
 ### 1. Package
-First install the Notify Me Senpy pip package
+First install the *Notify Me SenPy* PyPi package
 ```bash
 pip install notify-me-senpy
 ```
@@ -54,7 +53,7 @@ You are done with the package setup! 🎉
 
 ### 2. App
 
-Download the Notify Me Senpy app from the store.
+Download the *Notify Me SenPy* app from the store.
 
 Once the app installed, open the app and wait until the configuration is done. You should receive a notification confirming that the configuration has been successfully completed. Otherwise, check your connection, try again or try re-installing the app.
 
@@ -102,14 +101,3 @@ pip install --editable .
 ```
 You only need to run this command once. What it does is that it installs a package, called `senpy`, whose implementation is in the current folder (and not in the usual `site-packages`), so every subsequent code modifications while be taken into account.
 You can directly go to the Usage section.
-
-
-
-
-
-
-
-
-
-
-
