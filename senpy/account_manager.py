@@ -1,5 +1,6 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import prompt, style_from_dict, Token, Validator, ValidationError
+from InquirerPy import prompt
+from prompt_toolkit.validation import Validator, ValidationError
 from .request_utils import post
 import argparse
 from .user_token import get_token, set_token, delete_token
