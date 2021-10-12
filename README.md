@@ -4,7 +4,7 @@
 
 *Notify Me SenPy* is a tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points.
 
-It is composed of a PyPi package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
+It is composed of a Python package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
 <p float="center">
 <img src="./assets/jobs.png" alt="job screen" />
@@ -32,7 +32,7 @@ with ntm(range(10)) as iterator:
 
 ## Installation
 ### 1. Package
-First install the *Notify Me SenPy* PyPi package
+First install the *Notify Me SenPy* Python package
 ```bash
 pip install notify-me-senpy
 ```
