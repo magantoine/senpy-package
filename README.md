@@ -1,5 +1,36 @@
 # Notify Me Senpy
 
+## What is it?
+
+Notify Me Senpy is a tool that let's you can track your python scripts execution and get notified whenever the execution reaches certain points. 
+
+Notify Me Senpy is composed of a pip package and an application. The package is used to specify which job you want to track and at which points you want to receive a notification. The application is where you track the progress and see the notification history.
+
+
+<p float="center">
+<img src="./assets/jobs.png" alt="job screen" />
+</p>
+
+## Usage
+
+You can send notifications from a script to your app using `notify_me`
+```python
+from senpy import notify_me
+
+notify_me("Great job!")
+```
+
+You can track your jobs using the `ntm` python `with statement`:
+
+```python
+from senpy import ntm
+from time import sleep 
+
+with ntm(range(10)) as iterator:
+    for i, item in enumerate(iterator):
+        sleep(5)
+``` 
+
 ## Installation
 ### 1. Package
 First install the Notify Me Senpy pip package
@@ -29,29 +60,8 @@ Once the app installed, open the app and wait until the configuration is done. Y
 
 Once done, you simply have to log into your account in the app to complete the installation.
 <p float="center">
-<img src="./assets/configuration.jpeg" alt="login screen" width="200"/>
-<img src="./assets/login.jpeg" alt="login screen" width="200"/>
+<img src="./assets/login.png" alt="login screen"/>
 </p>
-
-## Usage
-
-You can send notifications from a script to your app using `notify_me`
-```python
-from senpy import notify_me
-
-notify_me("Great job")
-```
-
-You can track your jobs using the `ntm` python `with statement`:
-
-```python
-from senpy import ntm
-from time import sleep 
-
-with ntm(range(10)) as iterator:
-    for i, item in enumerate(iterator):
-        sleep(5)
-``` 
 
 
 ## To contribute
