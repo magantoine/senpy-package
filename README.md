@@ -2,9 +2,9 @@
 
 ## What is it?
 
-Notify Me Senpy is a tool that let's you can track your python scripts execution and get notified whenever the execution reaches certain points. 
+**Notify Me Senpy** is a tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points. 
 
-Notify Me Senpy is composed of a pip package and an application. The package is used to specify which job you want to track and at which points you want to receive a notification. The application is where you track the progress and see the notification history.
+It is composed of a Pip package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
 
 <p float="center">
