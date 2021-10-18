@@ -60,6 +60,9 @@ class ntm(object):
         self.job_id = self._create_job()
         self.update_period = update_period
 
+        ## declaration of lp as None to initialize it
+        self.lp = None
+
     def __iter__(self):
         """
         This method is called when starting a loop. It initializes a periodic update
@@ -90,7 +93,10 @@ class ntm(object):
         This method is called when leaving the `with` statement. Closing the job
         here ensures that it is done even if an exception occurs during an iteration. 
         """
-        self.lp.stop()
+        
+        if(self.lp is not None):
+            # may be called before __iter__
+            self.lp.stop()
         is_finished = self.current_iteration == self.total_iteration
         error_occurred = not is_finished
         self._job_done(is_finished, error_occurred, self._now())
