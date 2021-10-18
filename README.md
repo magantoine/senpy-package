@@ -248,9 +248,6 @@ def bruteforce(common_password_list, actual_password_hash):
         # with ntm, SenPy let's you keep track of the amount of hashed studied
         for guess_password in common_passwords:
             if hash(guess_password) == actual_password_hash:
-                print("Hey! your password is:", guess_password,
-                    "\n please change this, it was really easy to guess it (:")
-                # If the password is found then it will terminate the script here
                 return guess_password
 
 
