@@ -1,10 +1,10 @@
 """
 
-SenPy can, of course, be useful in applications that aren't Data Science. 
-In fact it can be used for any long computation you can encounter in python. 
-Here's an example in cryptography with brute force of a password using hashes.
-This is a classical cyber security class exercise and is not harmful at all.
-
+SenPy can, of course, be useful in applications that aren't Data Science related. 
+In fact it can be used for any long computation you encounter in python, especially
+if it is difficult to estimate the time required to perform the task. 
+Here's an example in cryptography with brute force of a password using hashes,
+which is a traditional cyber security class exercise.
 """
 
 
