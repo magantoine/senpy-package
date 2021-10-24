@@ -59,6 +59,7 @@ class ntm(object):
         self.interruption = None # The server sets this attr to an error string to stop the job
         self.job_id = self._create_job()
         self.update_period = update_period
+        self.already_printed_warning = False
 
         ## declaration of lp as None to initialize it
         self.lp = None
@@ -143,7 +144,10 @@ class ntm(object):
                 #E.g. if a job has been running for too long 
                 self.interruption = res.json()['failure']
             else:
-                handle_request_error(res)
+                #Don't print errors repeatedly in the update loop
+                if not self.already_printed_warning:
+                    handle_request_error(res)
+                    self.already_printed_warning = True
 
     def _job_done(self, is_finished, error_occurred, time_finished_pck):
         if not self.job_id:

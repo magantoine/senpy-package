@@ -8,7 +8,7 @@ from .user_token import get_token
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-_URL = "http://192.168.43.175:8000/api/{}"
+_URL = "http://192.168.1.34:8000/api/{}"
 
 def create_url(tail):
     return _URL.format(tail)
@@ -96,9 +96,12 @@ def print_error(res):
     elif 'python_error' in res:
         print_message(res['message'])
 
+    elif res.status_code == 429:
+        print_message("Too many requests, please try again later.")
+
     elif res.status_code == 500:
-        print_message("An error occurred on our side. Please try again later.")
-    
+        print_message("An error occurred on our side, please try again later.")
+
     else:
         data = res.json()
         if type(data) == list:
@@ -111,7 +114,7 @@ def print_error(res):
                         print_message(f"{key}: {error}")
                 elif type(errors) == str:
                     print_message(f"{key}: {errors}")
-        elif type(errors) == str:
+        elif type(data) == str:
             print_message(data)
 
 def print_success(message):
