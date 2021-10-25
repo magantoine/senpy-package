@@ -165,4 +165,12 @@ class ntm(object):
             notify_me("A job has finished on an exception."
                     "The final details couldn't be transmitted to the server.")
             handle_request_error(res)
+        else :
+            ## if we get here that means the job is done properly
+            starter = ""
+            if(self.name == ""):
+                starter = "A job"
+            else :
+                starter = f"The job {self.name}"
+            notify_me(starter + f"is done (in {round((self._now() - self.time_started).total_seconds())} seconds) !")
 
