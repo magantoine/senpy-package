@@ -48,7 +48,7 @@ class ntm(object):
     if the  iterator is interrupted (in __exit__). 
     More info: https://docs.python.org/3/reference/datamodel.html#with-statement-context-managers
     """
-    def __init__(self, iterable, name="", current_iteration=0, update_period=5):
+    def __init__(self, iterable, name="", current_iteration=0, update_period=5, disable_end_message=False):
         # check that a token exists, if it doesn't exist, prompt register or login
         check_token_exists()
         self.iterable = iterable
@@ -60,6 +60,7 @@ class ntm(object):
         self.job_id = self._create_job()
         self.update_period = update_period
         self.already_printed_warning = False
+        self.disable_end_message = disable_end_message
 
         ## declaration of lp as None to initialize it
         self.lp = None
@@ -172,5 +173,7 @@ class ntm(object):
                 starter = "A job"
             else :
                 starter = f"The job {self.name}"
-            notify_me(starter + f"is done (in {round((self._now() - self.time_started).total_seconds())} seconds) !")
+
+            if(not self.disable_end_message):
+                notify_me(starter + f"is done (in {round((self._now() - self.time_started).total_seconds())} seconds) !")
 
