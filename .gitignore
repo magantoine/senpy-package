@@ -1,4 +1,5 @@
 .mypy_cache/
+senpy/__pycache__
 senpy/.mypy_cache/
 senpy/__pycache__/
 *.ipynb
