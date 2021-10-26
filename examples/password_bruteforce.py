@@ -30,8 +30,10 @@ def hash(password):
 def bruteforce(common_password_list, actual_password_hash):
 
     # ========================================= #
-    with ntm(common_password_list) as common_passwords:
+    with ntm(common_password_list, disable_end_message=True) as common_passwords:
     # with ntm, SenPy let's you keep track of the amount of hashed studied
+    # we don't want the basic end message to be send, we send our own with
+    # a string of our own
     # ========================================== #
         
         for guess_password in common_passwords:
