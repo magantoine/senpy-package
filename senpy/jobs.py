@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from time import sleep
+from types import GeneratorType
 
 from .notifications import notify_me
 from .request_utils import post, get, put, handle_request_error
@@ -48,13 +49,18 @@ class ntm(object):
     if the  iterator is interrupted (in __exit__). 
     More info: https://docs.python.org/3/reference/datamodel.html#with-statement-context-managers
     """
-    def __init__(self, iterable, name="", current_iteration=0, update_period=5):
+    def __init__(self, iterable, name="", current_iteration=0, update_period=5, length=None):
         # check that a token exists, if it doesn't exist, prompt register or login
         check_token_exists()
         self.iterable = iterable
         self.name = name
         self.current_iteration = current_iteration
-        self.total_iteration = len(iterable)
+        if length:
+            self.total_iteration = length - 1
+        else:
+            if isinstance(iterable, GeneratorType):
+                raise RuntimeError("You need to specify the total number of iteration (`length` parameter) when using a generator")
+            self.total_iteration = len(iterable)
         self.time_started = self._now()
         self.interruption = None # The server sets this attr to an error string to stop the job
         self.job_id = self._create_job()

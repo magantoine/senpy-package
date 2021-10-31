@@ -1,4 +1,5 @@
 ### UTILS FOR REQUEST THE SERVER
+import os
 import sys
 import colorama
 from colorama import Fore, Style, AnsiToWin32
@@ -8,7 +9,7 @@ from .user_token import get_token
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-_URL = "http://192.168.1.34:8000/api/{}"
+_URL = "http://192.168.1.211:8000/api/{}"
 
 def create_url(tail):
     return _URL.format(tail)
