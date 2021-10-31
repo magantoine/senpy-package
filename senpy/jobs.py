@@ -48,8 +48,32 @@ class ntm(object):
     It is implemented as a context manager to end the job properly 
     if the  iterator is interrupted (in __exit__). 
     More info: https://docs.python.org/3/reference/datamodel.html#with-statement-context-managers
+
+    Attributes
+    ----------
+    iterable : an iterable object (required)
+    name : name of the job (empty by default)
+    current_iteration : iteration index at which you start the job (0 by default)
+    update_period : number of iteration of the loop between each update (5 by defaults)
+    disable_end_message : states if you want NTM to send you a message at the end or not (false by default)
     """
-    def __init__(self, iterable, name="", current_iteration=0, update_period=5, length=None):
+    def __init__(self, iterable, name="", current_iteration=0, update_period=5, disable_end_message=False, length=None):
+        """
+        Creates a NTM object to track your jobs
+
+        Parameters
+        ----------
+        iterable : an iterable object (required)
+        name : name of the job (empty by default)
+        current_iteration : iteration index at which you start the job (0 by default)
+        update_period : number of iteration of the loop between each update (5 by defaults)
+        disable_end_message : states if you want NTM to send you a message at the end or not (false by default)
+
+        Returns 
+        -------
+        A NTM object
+        
+        """
         # check that a token exists, if it doesn't exist, prompt register or login
         check_token_exists()
         self.iterable = iterable
@@ -66,6 +90,7 @@ class ntm(object):
         self.job_id = self._create_job()
         self.update_period = update_period
         self.already_printed_warning = False
+        self.disable_end_message = disable_end_message
 
         ## declaration of lp as None to initialize it
         self.lp = None
@@ -171,4 +196,14 @@ class ntm(object):
             notify_me("A job has finished on an exception."
                     "The final details couldn't be transmitted to the server.")
             handle_request_error(res)
+        else :
+            ## if we get here that means the job is done properly
+            starter = ""
+            if(self.name == ""):
+                starter = "A job"
+            else :
+                starter = f"The job {self.name}"
+
+            if(not self.disable_end_message):
+                notify_me(starter + f"is done (in {round((self._now() - self.time_started).total_seconds())} seconds) !")
 

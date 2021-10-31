@@ -9,7 +9,11 @@ from .user_token import get_token
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
+<<<<<<< HEAD
 _URL = "http://192.168.1.211:8000/api/{}"
+=======
+_URL = "http://128.179.194.84:8000/api/{}"
+>>>>>>> a07674e58a64e6a36d65b6632ba7b7d594e5bf7f
 
 def create_url(tail):
     return _URL.format(tail)
@@ -88,8 +92,16 @@ def print_error(res):
     parameters :
     res : result of the query
     """
-    def print_message(error):
+    def print_message(error, header=None, helpers=None):
         print(Fore.RED + "Senpy - " + error.lower() + Style.RESET_ALL, file=stream)
+        if(helpers is not None):
+            ## help is provided
+
+            print(Fore.LIGHTYELLOW_EX + ("Possible fix" if header is None else header) + " : ", file=stream)
+            for help in helpers :
+                print("\t - " + help, file=stream)
+            print(Style.RESET_ALL, file=stream)
+
 
     if type(res) == str:
         print_message(res)
@@ -98,10 +110,13 @@ def print_error(res):
         print_message(res['message'])
 
     elif res.status_code == 429:
-        print_message("Too many requests, please try again later.")
+        helps = ["Try again later", "You are probably trying to sending notify_me requests to frequently", "You're iterations might be too quick"]
+        print_message(error="Too many requests", helpers=helps)
 
     elif res.status_code == 500:
-        print_message("An error occurred on our side, please try again later.")
+        report = ["Try again later", "contact us at notify.me.senpy@gmail.com", "report the issue at https://github.com/magantoine/senpy-package"]
+        print_message("An error occurred on our side, please try again later.", header="If the problem persists", helpers=report)
+
 
     else:
         data = res.json()

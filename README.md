@@ -2,9 +2,9 @@
 
 ## What is it?
 
-*Notify Me SenPy* is a tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points.
+*Notify Me SenPy* is a productivity tool that let's you track your Python scripts' execution and receive a notification whenever the execution reaches certain points.
 
-It is composed of a Python package and a mobile app. The package is used in your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
+It is composed of a Python package and a mobile app. The package is used within your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
 <p float="center">
 <img src="./assets/jobs.png" alt="job screen" />
@@ -30,32 +30,25 @@ with ntm(range(10)) as iterator:
         sleep(5)
 ``` 
 
-### Use cases : 
+### API
 
+#### `ntm`
 
-#### 1 - Use `notify-me` and `ntm` at the same time:
+| Parameter | Type | Description |
+|-|-|-|
+| name | String | Name of the job. Default is "Job #\<job number\>".|
+| current_iteration | Integer | Initial iteration number of the job. Default is 0.|
+| update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
 
-```python
-from senpy import notify_me, ntm
-from time import sleep
+#### `notify_me`
 
-IDLE_TIME = 3 * 60 * 1000 ## 3 minutes
+| Parameter | Type | Description |
+|-|-|-|
+| content | String | The content of the notification sent to the app. |
 
-def very_long_computation():
-    time.sleep(IDLE_TIME)
-    
-    
-with ntm(range(0, 100)) as values:
-    for value in values:
-        if(value % 10 == 0):
-            notify_me(f"We are at iteration {value}")
+### Use cases
 
-
-notify_me("The computation is done !")
-```
-
-
-#### 2 - Hyperparameter fine-tuning :
+#### 1 - Hyperparameter fine-tuning :
 
 Here we try to find the appropriate value for the number of clusters. This computation can be time-consuming and cumbersome to track manually.
 
@@ -70,17 +63,40 @@ X = make_blobs(n_samples=300_000, n_features=100)[0]
 inertias = []
 
 with ntm(range(1, 100, 10)) as nb_clusters:
-    # as I use ntm, SenPy keeps me updated on job screen
+    # Using ntm, SenPy keeps us updated about the current iteration
     for i in nb_clusters:
         km = KMeans(n_clusters=i, init='random')
         km.fit(X)
         inertia.append(km.intertia_)
 
 
-# at the end of the computation I get notified by SenPy
+# At the end of the computation we get notified by SenPy
 notify_me(f"KMeans fitted, inertia went from {inertias[0]} to , {inertias[-1]}")
 ```
 
+#### 2 - Use `notify-me` and `ntm` at the same time:
+
+```python
+from senpy import notify_me, ntm
+from time import sleep
+
+IDLE_TIME = 3 * 60 * 1000 ## 3 minutes
+
+def very_long_computation():
+    time.sleep(IDLE_TIME)
+    
+    
+with ntm(range(0, 100)) as values:
+    for value in values:
+        if(value % 10 == 0):
+            # Get notified whenever something interesting happens
+            notify_me(f"We are at iteration {value}")
+
+
+notify_me("The computation is done !")
+```
+
+You can find more examples [here](./examples), such as a cryptographic use case or a pyTorch model fitting.
 
 ## Installation
 ### 1. Package
@@ -119,7 +135,7 @@ Once done, you simply have to log into your account in the app to complete the i
 
 ### Architecture 
 
-The directory ```senpy_package``` is, at this time, built as follows :
+The directory ```senpy``` is currently built as follows :
 ```bash
 ├───senpy # Folder containing the source code
     ├───account_manager.py # authentication system
