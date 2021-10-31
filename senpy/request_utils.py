@@ -9,11 +9,7 @@ from .user_token import get_token
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-<<<<<<< HEAD
 _URL = "http://192.168.1.211:8000/api/{}"
-=======
-_URL = "http://128.179.194.84:8000/api/{}"
->>>>>>> a07674e58a64e6a36d65b6632ba7b7d594e5bf7f
 
 def create_url(tail):
     return _URL.format(tail)

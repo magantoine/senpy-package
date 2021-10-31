@@ -96,7 +96,7 @@ with ntm(range(0, 100)) as values:
 notify_me("The computation is done !")
 ```
 
-You can find more examples [here](./examples), such as a cryptographic use case or a pyTorch model fitting.
+You can find more examples [here](./examples), such as cryptographic use case, pyTorch model fitting or real time trading.
 
 ## Installation
 ### 1. Package
