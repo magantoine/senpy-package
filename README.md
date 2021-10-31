@@ -34,11 +34,15 @@ with ntm(range(10)) as iterator:
 
 #### `ntm`
 
+All parameters are optional except `iterable`.
+
 | Parameter | Type | Description |
 |-|-|-|
+| iterable | Iterable | The iterable that `ntm` is going to wrap. if `iterable` is a generator then you have to specify the `length` parameter|
 | name | String | Name of the job. Default is "Job #\<job number\>".|
 | current_iteration | Integer | Initial iteration number of the job. Default is 0.|
 | update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
+| length | Integer | The total number of iterations. Default is `len(iterable)`, as a consequence this argument is required when passing a generator as `iterable`|
 
 #### `notify_me`
 
