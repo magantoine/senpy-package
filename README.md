@@ -1,4 +1,5 @@
-<img alt="SenPy" src="./assets/banner.png"> 
+![](https://github.com/magantoine/senpy-package/raw/master/assets/banner.png)
+
 
 ## What is it?
 
@@ -7,7 +8,7 @@
 It is composed of a Python package and a mobile app. The package is used within your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
 <p float="center">
-<img src="./assets/jobs.png" alt="job screen" />
+![](https://github.com/magantoine/senpy-package/raw/master/assets/jobs.png)
 </p>
 
 ## Usage
@@ -131,7 +132,7 @@ Once the app installed, open the app and wait until the configuration is done. Y
 
 Once done, you simply have to log into your account in the app to complete the installation.
 <p float="center">
-<img src="./assets/login.png" alt="login screen"/>
+![](https://github.com/magantoine/senpy-package/raw/master/assets/login.png)
 </p>
 
 
