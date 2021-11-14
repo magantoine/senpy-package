@@ -4,7 +4,11 @@ import colorama
 from colorama import Fore, Style, AnsiToWin32
 import requests
 from requests.exceptions import Timeout
-from .user_token import get_token
+from user_token import get_token
+
+
+import aiohttp
+import asyncio
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
@@ -32,6 +36,42 @@ def request_handler(tail, request_func, json=None, headers=None):
             'exception': str(err),
             'message':"Server unreachable, make sure you are connected to internet"
         }
+
+
+async def async_request_handler(tail, request_type, json=None, headers=None, on_success=lambda x : None, on_error=lambda x : None):
+    
+    if headers is None:
+        headers = {"Content-Type":"application/json"}
+        token = get_token()
+        if token is not None:
+            headers["Authorization"] = token
+    print("1")
+    async with aiohttp.ClientSession() as session:
+        print("2")
+        full_URL = create_url(tail)
+
+        func = session.get if request_type == "GET" else session.post if request_type == "POST" else session.put
+        try :
+            print("3")
+            async with func(full_URL, headers=headers, json=json, timeout=5) as response:
+                content = await response.json()
+                print("4")
+                if(content.status_code == 200):
+                    ## success we can apply the success part here
+                    on_success(content)
+                else :
+                    ## we have an error 
+                    on_error(content)
+        except (Timeout, Exception) as err:
+            ## timeout error is triggered
+            err_arg = {
+            'python_error' : True, 
+            'exception': str(err),
+            'message':"Server unreachable, make sure you are connected to internet"
+            }
+            on_error(err_arg)
+    
+
 
 def get(tail, headers=None):
     """
@@ -137,3 +177,7 @@ def print_success(message):
     message : message to print
     """
     print(Fore.GREEN + message + Style.RESET_ALL)
+
+
+
+
