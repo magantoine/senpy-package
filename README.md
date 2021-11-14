@@ -43,6 +43,7 @@ All parameters are optional except `iterable`.
 | current_iteration | Integer | Initial iteration number of the job. Default is 0.|
 | update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
 | length | Integer | The total number of iterations. Default is `len(iterable)`, as a consequence this argument is required when passing a generator as `iterable`|
+| disable_en_message | bool | Decides if you want to receive a notification at the end of the Job. Default is False. If the overall runtime of the job is less than a minute, notifications are disabled |
 
 #### `notify_me`
 
