@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 from time import sleep
+from types import GeneratorType
 
 from .notifications import notify_me
 from .request_utils import post, get, put, handle_request_error
@@ -58,7 +59,7 @@ class ntm(object):
     update_period : number of iteration of the loop between each update (5 by defaults)
     disable_end_message : states if you want NTM to send you a message at the end or not (false by default)
     """
-    def __init__(self, iterable, name="", current_iteration=0, update_period=5, disable_end_message=False):
+    def __init__(self, iterable, name="", current_iteration=0, update_period=5, disable_end_message=False, length=None):
         """
         Creates a NTM object to track your jobs
 
@@ -80,7 +81,12 @@ class ntm(object):
         self.iterable = iterable
         self.name = name
         self.current_iteration = current_iteration
-        self.total_iteration = len(iterable)
+        if length:
+            self.total_iteration = length - 1
+        else:
+            if isinstance(iterable, GeneratorType):
+                raise RuntimeError("You need to specify the total number of iteration (`length` parameter) when using a generator")
+            self.total_iteration = len(iterable)
         self.time_started = self._now()
         self.interruption = None # The server sets this attr to an error string to stop the job
         self.job_id = self._create_job()

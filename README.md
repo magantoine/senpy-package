@@ -1,4 +1,5 @@
-<img alt="SenPy" src="./assets/banner.png"> 
+![](https://github.com/magantoine/senpy-package/raw/master/assets/banner.png)
+
 
 ## What is it?
 
@@ -6,9 +7,8 @@
 
 It is composed of a Python package and a mobile app. The package is used within your Python script to specify which job you want to track and at which points you want to receive notifications. The application is where you can check on your job progress and see the notification history.
 
-<p float="center">
-<img src="./assets/jobs.png" alt="job screen" />
-</p>
+
+![](https://github.com/magantoine/senpy-package/raw/master/assets/jobs.png)
 
 ## Usage
 
@@ -34,11 +34,15 @@ with ntm(range(10)) as iterator:
 
 #### `ntm`
 
+All parameters are optional except `iterable`.
+
 | Parameter | Type | Description |
 |-|-|-|
+| iterable | Iterable | The iterable that `ntm` is going to wrap. if `iterable` is a generator then you have to specify the `length` parameter|
 | name | String | Name of the job. Default is "Job #\<job number\>".|
 | current_iteration | Integer | Initial iteration number of the job. Default is 0.|
 | update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
+| length | Integer | The total number of iterations. Default is `len(iterable)`, as a consequence this argument is required when passing a generator as `iterable`|
 
 #### `notify_me`
 
@@ -96,7 +100,7 @@ with ntm(range(0, 100)) as values:
 notify_me("The computation is done !")
 ```
 
-You can find more examples [here](./examples), such as a cryptographic use case or a pyTorch model fitting.
+You can find more examples [here](./examples), such as cryptographic use case, pyTorch model fitting or real time trading.
 
 ## Installation
 ### 1. Package
@@ -126,9 +130,8 @@ Download the *Notify Me SenPy* app from the store.
 Once the app installed, open the app and wait until the configuration is done. You should receive a notification confirming that the configuration has been successfully completed. Otherwise, check your connection, try again or try re-installing the app.
 
 Once done, you simply have to log into your account in the app to complete the installation.
-<p float="center">
-<img src="./assets/login.png" alt="login screen"/>
-</p>
+
+![](https://github.com/magantoine/senpy-package/raw/master/assets/login.png)
 
 
 ## To contribute
