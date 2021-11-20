@@ -11,6 +11,8 @@ from datetime import datetime
 from threading import Timer
 
 
+END_ALERT_LOWER_BOUND = 1 ## in minutes
+
 class EventLoop(object):
     """
     Non-blocking loop from https://stackoverflow.com/a/38317060. The method `_run` is periodically
@@ -203,7 +205,9 @@ class ntm(object):
                 starter = "A job"
             else :
                 starter = f"The job {self.name}"
-
-            if(not self.disable_end_message):
-                notify_me(starter + f"is done (in {round((self._now() - self.time_started).total_seconds())} seconds) !")
+            
+            timespan = round((self._now() - self.time_started).total_seconds())
+            if(not self.disable_end_message and timespan > END_ALERT_LOWER_BOUND * 60):
+                ## only superieur to 1 minutes
+                notify_me(starter + f"is done (in {timespan} seconds) !")
 
