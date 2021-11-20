@@ -1,7 +1,11 @@
-# Notify Me SenPy can be used is to suscribe to real time events using `notify_me`.
-# For example, real time updates are critical in trading currencies.
-# We show here a basic implementation of a subscriber system that 
-# notifies us when the Bitcoin drops below a specified threshold.
+"""
+
+Notify Me SenPy can be used is to suscribe to real time events using `notify_me`.
+For example, real time updates are critical in trading currencies.
+We show here a basic implementation of a subscriber system that 
+notifies us when the Bitcoin drops below a specified threshold.
+
+"""
 
 import requests
 from time import sleep

@@ -1,4 +1,5 @@
 colorama
 keyring
 PyInquirer
+inquirerpy
 requests

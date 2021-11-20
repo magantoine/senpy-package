@@ -9,7 +9,6 @@ def notify_me(content):
 
     returns :
     """
-    
     res = post('notif/notifyme', 
                 json={"message": content})
     if 'python_error' in res or res.status_code != 200:

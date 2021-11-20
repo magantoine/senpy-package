@@ -30,27 +30,7 @@ with ntm(range(10)) as iterator:
         sleep(5)
 ``` 
 
-### API
-
-#### `ntm`
-
-All parameters are optional except `iterable`.
-
-| Parameter | Type | Description |
-|-|-|-|
-| iterable | Iterable | The iterable that `ntm` is going to wrap. if `iterable` is a generator then you have to specify the `length` parameter|
-| name | String | Name of the job. Default is "Job #\<job number\>".|
-| current_iteration | Integer | Initial iteration number of the job. Default is 0.|
-| update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
-| length | Integer | The total number of iterations. Default is `len(iterable)`, as a consequence this argument is required when passing a generator as `iterable`|
-
-#### `notify_me`
-
-| Parameter | Type | Description |
-|-|-|-|
-| content | String | The content of the notification sent to the app. |
-
-### Use cases
+## Use cases
 
 #### 1 - Hyperparameter fine-tuning :
 
@@ -100,7 +80,34 @@ with ntm(range(0, 100)) as values:
 notify_me("The computation is done !")
 ```
 
-You can find more examples [here](./examples), such as cryptographic use case, pyTorch model fitting or real time trading.
+Here are a few more examples that illustrate how *Notify Me SenPy* can be used:
+* [PyTorch model fitting](./examples/model_training.py)
+* [Password bruteforce attack](./examples/password_bruteforce.py)
+* [Real time Bitcoin updates](./examples/real_time_bitcoin_update.py)
+* [Tensorflow Keras Callbacks](./examples/tensorflow_callback.py)
+
+
+
+## API
+
+### `ntm`
+
+All parameters are optional except `iterable`.
+
+| Parameter | Type | Description |
+|-|-|-|
+| iterable | Iterable | The iterable that `ntm` is going to wrap. if `iterable` is a generator then you have to specify the `length` parameter|
+| name | String | Name of the job. Default is "Job #\<job number\>".|
+| current_iteration | Integer | Initial iteration number of the job. Default is 0.|
+| update_period | Integer | Time in seconds between each update sent to the server. Default is 5 seconds. NB: the server enforces API request rate limits.|
+| length | Integer | The total number of iterations. Default is `len(iterable)`, as a consequence this argument is required when passing a generator as `iterable`|
+
+### `notify_me`
+
+| Parameter | Type | Description |
+|-|-|-|
+| content | String | The content of the notification sent to the app. |
+
 
 ## Installation
 ### 1. Package
@@ -171,7 +178,6 @@ Run the following command from the top folder:
 pip install --editable .
 ```
 You only need to run this command once. What it does is that it installs a package, called `senpy`, whose implementation is in the current folder (and not in the usual `site-packages`), so every subsequent code modifications while be taken into account.
-You can directly go to the Usage section.
 
 
 
