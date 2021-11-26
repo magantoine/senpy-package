@@ -5,7 +5,7 @@ import colorama
 from colorama import Fore, Style, AnsiToWin32
 import requests
 from requests.exceptions import Timeout
-from user_token import get_token
+from .user_token import get_token
 
 
 import aiohttp
