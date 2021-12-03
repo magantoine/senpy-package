@@ -43,7 +43,7 @@ password = [{
             'type': 'password',
             'message': 'Password',
             'name': 'password',
-            'validate': PasswordValidator
+            'validate': PasswordValidator()
         }]
 
 def register(on_success=__default_func, on_failure=__default_func):
@@ -66,14 +66,13 @@ def register(on_success=__default_func, on_failure=__default_func):
 
 
     
-    disclaimers ="""\tThis is a beta version of Senpy. We do not give any warranties, whether express or implied, as to the suitability or usability of the app,
-        its software or any of its content. We will not be liable for any loss, whether such loss is direct, indirect, special or consequential, 
-        suffered by any party as a result of their use of the beta app, its content and functionalities.
-    """
+    disclaimers ="""This is a beta version. We do not give any warranties, whether express or implied, as to the suitability or usability of the app,
+its software or any of its content. We will not be liable for any loss, whether such loss is direct, indirect, special or consequential, 
+suffered by any party as a result of their use of the beta app, its content and functionalities."""
 
-    disclaimers += Fore.LIGHTYELLOW_EX + "    Don't share any personal information on senpy" + Style.RESET_ALL
+    disclaimers += Fore.LIGHTYELLOW_EX + "\nDon't share any sensitive information on SenPy.\n" + Style.RESET_ALL
     ### PROMPT THE DISCLAIMER :
-    print(Fore.LIGHTYELLOW_EX + "\tDISCLAIMERS :" + Style.RESET_ALL, file=AnsiToWin32(sys.stderr).stream)
+    print(Fore.LIGHTYELLOW_EX + "DISCLAIMERS :" + Style.RESET_ALL, file=AnsiToWin32(sys.stderr).stream)
     print(disclaimers)
     while not registered:
         data = prompt(questions)

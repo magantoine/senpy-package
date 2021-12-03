@@ -5,7 +5,7 @@ import colorama
 from colorama import Fore, Style, AnsiToWin32
 import requests
 from requests.exceptions import Timeout
-from user_token import get_token
+from .user_token import get_token
 
 
 import aiohttp
@@ -13,7 +13,7 @@ import asyncio
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-_URL = "http://192.168.1.44:8000/api/{}"
+_URL = "http://192.168.1.211:8000/api/{}"
 
 def create_url(tail):
     return _URL.format(tail)
