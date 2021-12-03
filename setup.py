@@ -8,7 +8,7 @@ def readme():
 setup(
     name="notify-me-senpy", # name of the package on PyPi
     version="0.3", # version number
-    description="Ask senpy to notify you on your phone whenever you need about your python script", # short textual description
+    description="Simple python tracker", # short textual description
     long_description=readme(),
     long_description_content_type='text/markdown',
     author="Notify Me SenPy", # authors
