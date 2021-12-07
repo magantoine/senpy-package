@@ -6,7 +6,7 @@ on:
     - master
 
 jobs:
-  test:
+  Test:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,6 +15,12 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r senpy/requirements.txt
+        python -m pip install dateutils
+        python -m pip install django==3.2.7
     - name: Test ntm
       run: python tests/ntm.py
     - name: Test notify_me

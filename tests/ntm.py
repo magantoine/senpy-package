@@ -1,7 +1,11 @@
+import sys
+from os import path
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
+import unittest
 from time import sleep 
 from datetime import datetime
 from senpy import ntm
-import unittest
 from senpy.request_utils import get
 from dateutil.parser import parse
 from datetime import datetime
