@@ -3,7 +3,7 @@ name: Run package unit tests
 on:
   push:
     branches:
-    - main
+    - master
 
 jobs:
   test:
