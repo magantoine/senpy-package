@@ -43,7 +43,7 @@ class TestNTM(unittest.TestCase):
         self.init_wrapper()
         with self.wrapper as iterator:
             for i, item in enumerate(iterator):
-                print("Update", i)
+                # print("Update", i)
                 sleep(1)
                 self.check_job_attr(i) 
     

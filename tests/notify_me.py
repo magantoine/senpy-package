@@ -1,7 +1,13 @@
 from senpy import notify_me
+import unittest
 
-def main():
-    notify_me("Last one promised")
+class TestNotifyMe(unittest.TestCase):
+
+    def testUsualCall(self):
+        notify_me("Notification Test")
+        
+    def testDefaultArgument(self):
+        notify_me()
 
 if __name__ == '__main__':
-    main()
+    unittest.main()

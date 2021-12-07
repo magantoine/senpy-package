@@ -1,6 +1,6 @@
 from .request_utils import post, handle_request_error
 
-def notify_me(content):
+def notify_me(content="New notification!"):
     """
     send a push notification with given content 
 
