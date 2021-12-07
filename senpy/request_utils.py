@@ -7,8 +7,6 @@ import requests
 from requests.exceptions import Timeout
 from .user_token import get_token
 
-
-import aiohttp
 import asyncio
 
 colorama.init(convert=True)
