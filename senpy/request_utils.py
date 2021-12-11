@@ -11,7 +11,7 @@ import asyncio
 
 colorama.init(convert=True)
 stream = AnsiToWin32(sys.stderr).stream
-_URL = "http://128.179.158.23:8000/api/{}"
+_URL = "https://api.senpy.ch/api/{}"
 
 def create_url(tail):
     return _URL.format(tail)
