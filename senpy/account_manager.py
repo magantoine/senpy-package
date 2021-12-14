@@ -76,7 +76,7 @@ suffered by any party as a result of their use of the beta app, its content and 
     print(disclaimers)
     while not registered:
         data = prompt(questions)
-        res = post('auth/register', data)
+        res = post('auth/register', data, add_token=False)
         if 'python_error' not in res and res.status_code == 200:
             token = res.json()['auth_token']
             set_token(token)
@@ -102,7 +102,7 @@ def login(on_success=__default_func, on_failure=__default_func):
     logged_in = False
     while not logged_in:
         data = prompt(username + password)
-        res = post('auth/login', json=data)
+        res = post('auth/login', json=data, add_token=False)
         if 'python_error' not in res and res.status_code == 200:
             token = res.json()['auth_token']
             set_token(token)
@@ -131,7 +131,7 @@ def logout(on_success=__default_func, on_failure=__default_func):
     if data['confirmation'] == False:
         #User doesn't want to logout anymore
         return
-    res = post('auth/logout')
+    res = post('auth/logout', add_token=False)
     on_success(res)
     delete_token()
     return Result(Status.SUCCESS, "You are logged out, see you!")
