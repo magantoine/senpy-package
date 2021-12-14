@@ -1,13 +1,16 @@
 from distutils.core import setup
 import setuptools
-
+from senpy.version import __version__
 def readme():
     with open('README.md') as f:
         return f.read()
 
+
+
+
 setup(
     name="notify-me-senpy", # name of the package on PyPi
-    version="0.4", # version number
+    version=__version__, # version number
     description="Simple python tracker", # short textual description
     long_description=readme(),
     long_description_content_type='text/markdown',
