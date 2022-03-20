@@ -72,6 +72,7 @@ def very_long_computation():
     
 with ntm(range(0, 100)) as values:
     for value in values:
+        very_long_computation()
         if(value % 10 == 0):
             # Get notified whenever something interesting happens
             notify_me(f"We are at iteration {value}")
