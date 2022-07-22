@@ -1,6 +1,7 @@
 from datetime import datetime, timezone, timedelta
 from time import sleep
 from types import GeneratorType
+import traceback
 
 from .notifications import notify_me
 from .request_utils import post, get, put, handle_request_error
@@ -122,7 +123,7 @@ class ntm(object):
         """
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(self, exc_type, exc_value, tb):
         """
         This method is called when leaving the `with` statement. Closing the job
         here ensures that it is done even if an exception occurs during an iteration. 
@@ -131,9 +132,26 @@ class ntm(object):
         if(self.lp is not None):
             # may be called before __iter__
             self.lp.stop()
-        is_finished = self.current_iteration == self.total_iteration
-        error_occurred = not is_finished
-        self._job_done(is_finished, error_occurred, self._now())
+
+        stacktrace_str = ""
+        error_occurred = (exc_type is not None) or (exc_value is not None) or (tb is not None)
+        if error_occurred:
+            """
+            If an exception occurred, traceback.format_exception will format a nice output to display
+            all information about the error, including type and value.
+            It returns a string array, in which each line ends by a newline.
+            
+            Ex output :
+            Traceback (most recent call last):
+              File "path/to/file/script.py", line 14, in my_function
+                print(8/i)
+            ZeroDivisionError: division by zero
+            """
+            strings = traceback.format_exception(exc_type, exc_value, tb, limit=None, chain=True)
+            stacktrace_str = ''.join(strings)
+
+        is_finished = not error_occurred
+        self._job_done(is_finished, error_occurred, self._now(), stacktrace_str)
 
     def _date_to_str(self, date):
         return date.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -182,16 +200,19 @@ class ntm(object):
                     handle_request_error(res)
                     self.already_printed_warning = True
 
-    def _job_done(self, is_finished, error_occurred, time_finished_pck):
+    def _job_done(self, is_finished, error_occurred, time_finished_pck, stacktrace_str):
         if not self.job_id:
             print_error("Job finished on an error due to incorrect job initializion.")
             notify_me("A job has finished on an exception due to incorrect senpy initialization."
                     "The final details couldn't be transmitted to the server.")
             return
         body = {
+            # We need to update the current iteration to report correctly the one in which the crash happened
+            "current_iteration": self.current_iteration,
             "time_finished_pck": self._date_to_str(time_finished_pck),
             "is_finished": is_finished,
-            "error_occurred": error_occurred
+            "error_occurred": error_occurred,
+            "stacktrace": stacktrace_str
         }
         res = put(f"job/{self.job_id}/done", json=body)
         if 'python_error' in res or res.status_code != 200:
@@ -209,5 +230,5 @@ class ntm(object):
             timespan = round((self._now() - self.time_started).total_seconds())
             if(not self.disable_end_message and timespan > END_ALERT_LOWER_BOUND * 60):
                 ## only superieur to 1 minutes
-                notify_me(starter + f"is done (in {timespan} seconds) !")
+                notify_me(starter + f" is done (in {timespan} seconds) !")
 
