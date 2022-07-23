@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name="notify-me-senpy",  # name of the package on PyPi
-    version="0.5.0",  # version number
+    version="0.5.1",  # version number
     description="Simple python tracker",  # short textual description
     long_description=readme(),
     long_description_content_type='text/markdown',
